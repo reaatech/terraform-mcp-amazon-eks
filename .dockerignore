@@ -1,0 +1,67 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Husky — must NEVER be installed in production images
+.husky
+
+# Node.js (if ever added)
+node_modules
+npm-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+.pnp.cjs
+.pnp.loader.mjs
+
+# Terraform
+.terraform
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+terraform.tfvars.example
+
+# CI/CD
+.github
+
+# Documentation
+*.md
+LICENSE
+
+# IDE / Editor
+.idea
+.vscode
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tests
+tests/
+*_test.go
+*.test
+
+# Build artifacts
+dist
+build
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+.pytest_cache
+.mypy_cache
+.venv
+venv
+
+# Local environments
+.env
+.env.*
+
+# Skills (not needed at runtime)
+skills/

@@ -1,0 +1,49 @@
+# Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!terraform.tfvars.example
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Exclude all .override files
+*.override
+
+# Directory for Terraform to put temporary files
+.terraform/
+
+# SWP files
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Coverage
+coverage/
+*.out
+
+# Temporary files
+tmp/
+temp/
+
+# Kubernetes
+kubeconfig
+*.kubeconfig
+
+# Project files
+DEV_PLAN.md
