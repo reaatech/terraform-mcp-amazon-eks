@@ -9,7 +9,7 @@ framework:
 quiet: true
 skip-check:
   # Module-level checks that conflict with variable-based configuration
-  - CKV_K8S_14   # Image Tag should be fixed - module leaves image configurable
+  - CKV_K8S_14   # Image Tag - module leaves image configurable
   - CKV_K8S_29   # Apply security context - module leaves secContext configurable
   - CKV_K8S_43   # Image should use digest - module leaves image configurable
   - CKV_K8S_30   # Apply security context to pods/containers - module leaves configurable
@@ -19,3 +19,6 @@ skip-check:
   - CKV_AWS_38   # EKS public endpoint CIDR - module has var.endpoint_public_access
   - CKV_AWS_39   # EKS public endpoint disabled - module has var.endpoint_public_access
   - CKV_AWS_58   # EKS Secrets Encryption - module has var.enable_encryption
+  - CKV2_AWS_57  # Secrets Manager automatic rotation - module consumer sets rotation_policy
+  - CKV2_AWS_64  # KMS key Policy - module consumer defines key policy
+  - CKV2_AWS_50  # ElastiCache Multi-AZ - module has var.multi_az_enabled
