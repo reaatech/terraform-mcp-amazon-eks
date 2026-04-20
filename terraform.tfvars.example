@@ -1,0 +1,30 @@
+region            = "us-west-2"
+cluster_name      = "mcp-dev"
+mcp_server_image  = "public.ecr.aws/example/mcp-server:latest"
+environment       = "dev"
+
+# Optional: omit both `vpc_id` and `subnet_ids` to use the account's default VPC.
+vpc_id     = null
+subnet_ids = null
+
+node_groups = {
+  general = {
+    instance_types = ["t3.medium"]
+    min_size       = 2
+    max_size       = 5
+  }
+}
+
+enable_keda         = true
+enable_keda_scaling = true
+warm_pool_size      = 1
+scale_up_threshold  = 5
+scale_down_delay    = 300
+
+elasticache_node_type  = "cache.t3.micro"
+elasticache_num_nodes  = 1
+endpoint_public_access = true
+
+env_vars = {
+  LOG_LEVEL = "INFO"
+}
