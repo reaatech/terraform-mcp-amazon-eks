@@ -19,7 +19,6 @@ env:
   OPA_VERSION: "0.70.0"
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}/mcp-server
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
 
 jobs:
   # ───────────────────────────────────────────────────────────────
@@ -31,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
       - name: Terraform Format
@@ -42,7 +41,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: terraform-linters/setup-tflint@v4
+      - uses: terraform-linters/setup-tflint@v6
         with:
           tflint_version: v0.55.1
       - run: tflint --init
@@ -70,7 +69,7 @@ jobs:
           - examples/vpc-only
     steps:
       - uses: actions/checkout@v4
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
       - run: terraform -chdir=${{ matrix.dir }} init -backend=false
@@ -119,7 +118,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
       - name: Run Unit Tests
@@ -135,7 +134,7 @@ jobs:
     needs: [format, lint, validate, audit]
     steps:
       - uses: actions/checkout@v4
-      - uses: open-policy-agent/setup-opa@v2
+      - uses: open-policy-agent/setup-opa@v2.3.0
         with:
           version: ${{ env.OPA_VERSION }}
       - run: opa test tests/policy -v
@@ -156,7 +155,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: ${{ env.GO_VERSION }}
-      - uses: hashicorp/setup-terraform@v3
+      - uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
       - name: Configure AWS Credentials
