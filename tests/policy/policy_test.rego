@@ -1,5 +1,7 @@
 package terraform_mcp_eks
 
+import future.keywords.in
+
 test_eks_encryption_pass if {
   not deny[_] with input as {
     "resource_type": "aws_eks_cluster",
