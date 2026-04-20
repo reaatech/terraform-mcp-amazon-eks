@@ -1,0 +1,21 @@
+---
+branch: main
+compact: true
+download-external-modules: false
+evaluate-variables: true
+external-modules-dir: .checkov
+framework:
+  - terraform
+quiet: true
+skip-check:
+  # Module-level checks that conflict with variable-based configuration
+  - CKV_K8S_14   # Image Tag should be fixed - module leaves image configurable
+  - CKV_K8S_29   # Apply security context - module leaves secContext configurable
+  - CKV_K8S_43   # Image should use digest - module leaves image configurable
+  - CKV_K8S_30   # Apply security context to pods/containers - module leaves configurable
+  - CKV_AWS_30   # ElastiCache transit encryption - module has var.transit_encryption_enabled
+  - CKV_AWS_31   # ElastiCache transit encryption + auth token - module has var.auth_token
+  - CKV_AWS_191  # ElastiCache KMS CMK - module consumer sets this
+  - CKV_AWS_38   # EKS public endpoint CIDR - module has var.endpoint_public_access
+  - CKV_AWS_39   # EKS public endpoint disabled - module has var.endpoint_public_access
+  - CKV_AWS_58   # EKS Secrets Encryption - module has var.enable_encryption
