@@ -86,8 +86,6 @@ jobs:
           directory: .
           framework: terraform
           quiet: true
-          # Pinned for reproducibility
-          version: 3.2.334
           # Don't fail CI on audit-only findings; surface them in the UI instead.
           soft_fail: true
 
