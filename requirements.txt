@@ -1,0 +1,2 @@
+# MCP Server Runtime Dependencies
+# Placeholder — replace with your actual MCP server dependencies.
