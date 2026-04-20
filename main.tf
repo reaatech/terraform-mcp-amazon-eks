@@ -269,7 +269,6 @@ module "mcp_service" {
   node_selector              = var.node_selector
   tolerations                = var.tolerations
   service_type               = var.service_type
-  tags                       = local.default_tags
 
   providers = {
     kubernetes = kubernetes
