@@ -1,6 +1,6 @@
 package terraform_mcp_eks
 
-import future.keywords.in
+import future.keywords
 
 test_eks_encryption_pass if {
   not deny[_] with input as {

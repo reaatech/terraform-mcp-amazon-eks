@@ -27,7 +27,6 @@ require (
 	github.com/hashicorp/hcl/v2 v2.19.1 // indirect
 	github.com/hashicorp/terraform-exec v0.19.0 // indirect
 	github.com/hashicorp/terraform-json v0.18.0 // indirect
-	github.com/hashicorp/terraform-langsdk v0.0.0-20230906150015-f6cc63a5929b // indirect
 	github.com/jinzhu/copier v0.4.0 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/mattn/go-zglob v0.0.3 // indirect
