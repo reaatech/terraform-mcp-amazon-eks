@@ -1,5 +1,7 @@
 package terraform_mcp_eks
 
+import future.keywords
+
 deny[msg] {
   input.resource_type == "aws_eks_cluster"
   not input.values.encryption_config

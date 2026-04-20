@@ -2,8 +2,69 @@ package terraform_mcp_eks
 
 import future.keywords
 
-get_deny[msg] {
-	msg := deny with input as input
+test_eks_encryption_pass if {
+	d := deny with input as eks_encryption_input
+	count(d) == 0
+}
+
+test_eks_encryption_fail if {
+	d := deny with input as eks_no_encryption_input
+	"EKS cluster 'mcp-prod' must have encryption_config enabled" in d
+}
+
+test_prod_eks_public_endpoint_fail if {
+	d := deny with input as prod_public_endpoint_input
+	"Production EKS cluster 'mcp-prod' must not have public endpoint access enabled" in d
+}
+
+test_elasticache_encryption_pass if {
+	d := deny with input as elasticache_encrypted_input
+	count(d) == 0
+}
+
+test_elasticache_encryption_fail if {
+	d := deny with input as elasticache_no_transit_input
+	"ElastiCache replication group 'mcp-redis' must have transit_encryption_enabled" in d
+}
+
+test_sqs_kms_pass if {
+	d := deny with input as sqs_kms_input
+	count(d) == 0
+}
+
+test_sqs_kms_fail if {
+	d := deny with input as sqs_no_kms_input
+	"SQS queue 'mcp-tasks' must have kms_master_key_id configured" in d
+}
+
+test_secret_kms_pass if {
+	d := deny with input as secret_kms_input
+	count(d) == 0
+}
+
+test_secret_kms_fail if {
+	d := deny with input as secret_no_kms_input
+	"Secrets Manager secret 'mcp-api-key' should have a kms_key_id configured" in d
+}
+
+test_iam_oidc_pass if {
+	d := deny with input as iam_oidc_input
+	count(d) == 0
+}
+
+test_iam_oidc_fail if {
+	d := deny with input as iam_no_oidc_input
+	"IAM role 'mcp-server-role' must have an OIDC provider in the trust policy for IRSA" in d
+}
+
+test_scaled_object_pass if {
+	d := deny with input as scaled_object_input
+	count(d) == 0
+}
+
+test_scaled_object_fail if {
+	d := deny with input as scaled_object_no_max_input
+	"KEDA ScaledObject 'mcp-server-scaler' must have maxReplicaCount defined" in d
 }
 
 eks_encryption_input := {
@@ -20,10 +81,6 @@ eks_encryption_input := {
 	},
 }
 
-test_eks_encryption_pass if {
-	not get_deny with input as eks_encryption_input
-}
-
 eks_no_encryption_input := {
 	"resource_type": "aws_eks_cluster",
 	"name": "mcp-prod",
@@ -35,10 +92,6 @@ eks_no_encryption_input := {
 			"Environment": "prod",
 		},
 	},
-}
-
-test_eks_encryption_fail if {
-	"EKS cluster 'mcp-prod' must have encryption_config enabled" in get_deny with input as eks_no_encryption_input
 }
 
 prod_public_endpoint_input := {
@@ -55,10 +108,6 @@ prod_public_endpoint_input := {
 	},
 }
 
-test_prod_eks_public_endpoint_fail if {
-	"Production EKS cluster 'mcp-prod' must not have public endpoint access enabled" in get_deny with input as prod_public_endpoint_input
-}
-
 elasticache_encrypted_input := {
 	"resource_type": "aws_elasticache_replication_group",
 	"name": "mcp-redis",
@@ -67,10 +116,6 @@ elasticache_encrypted_input := {
 		"at_rest_encryption_enabled": true,
 		"transit_encryption_enabled": true,
 	},
-}
-
-test_elasticache_encryption_pass if {
-	not get_deny with input as elasticache_encrypted_input
 }
 
 elasticache_no_transit_input := {
@@ -83,10 +128,6 @@ elasticache_no_transit_input := {
 	},
 }
 
-test_elasticache_encryption_fail if {
-	"ElastiCache replication group 'mcp-redis' must have transit_encryption_enabled" in get_deny with input as elasticache_no_transit_input
-}
-
 sqs_kms_input := {
 	"resource_type": "aws_sqs_queue",
 	"name": "mcp-tasks",
@@ -95,18 +136,10 @@ sqs_kms_input := {
 	},
 }
 
-test_sqs_kms_pass if {
-	not get_deny with input as sqs_kms_input
-}
-
 sqs_no_kms_input := {
 	"resource_type": "aws_sqs_queue",
 	"name": "mcp-tasks",
 	"values": {},
-}
-
-test_sqs_kms_fail if {
-	"SQS queue 'mcp-tasks' must have kms_master_key_id configured" in get_deny with input as sqs_no_kms_input
 }
 
 secret_kms_input := {
@@ -117,18 +150,10 @@ secret_kms_input := {
 	},
 }
 
-test_secret_kms_pass if {
-	not get_deny with input as secret_kms_input
-}
-
 secret_no_kms_input := {
 	"resource_type": "aws_secretsmanager_secret",
 	"name": "mcp-api-key",
 	"values": {},
-}
-
-test_secret_kms_fail if {
-	"Secrets Manager secret 'mcp-api-key' should have a kms_key_id configured" in get_deny with input as secret_no_kms_input
 }
 
 iam_oidc_input := {
@@ -139,20 +164,12 @@ iam_oidc_input := {
 	},
 }
 
-test_iam_oidc_pass if {
-	not get_deny with input as iam_oidc_input
-}
-
 iam_no_oidc_input := {
 	"resource_type": "aws_iam_role",
 	"name": "mcp-server-role",
 	"values": {
 		"assume_role_policy": "{\"Principal\":{\"Service\":\"ec2.amazonaws.com\"}}",
 	},
-}
-
-test_iam_oidc_fail if {
-	"IAM role 'mcp-server-role' must have an OIDC provider in the trust policy for IRSA" in get_deny with input as iam_no_oidc_input
 }
 
 scaled_object_input := {
@@ -167,10 +184,6 @@ scaled_object_input := {
 	},
 }
 
-test_scaled_object_pass if {
-	not get_deny with input as scaled_object_input
-}
-
 scaled_object_no_max_input := {
 	"resource_type": "kubernetes_manifest",
 	"name": "mcp-server-scaler",
@@ -180,8 +193,4 @@ scaled_object_no_max_input := {
 			"minReplicaCount": 0,
 		},
 	},
-}
-
-test_scaled_object_fail if {
-	"KEDA ScaledObject 'mcp-server-scaler' must have maxReplicaCount defined" in get_deny with input as scaled_object_no_max_input
 }
