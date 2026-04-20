@@ -15,6 +15,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir --user -r requirements.txt
 
+# Ensure .local exists even if requirements.txt is empty
+RUN mkdir -p /root/.local
+
 # ───────────────────────────────────────────────────────────────
 # Production stage — no build tools, no dev dependencies
 # ───────────────────────────────────────────────────────────────
