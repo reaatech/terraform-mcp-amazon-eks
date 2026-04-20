@@ -3,7 +3,7 @@ package terraform_mcp_eks
 import future.keywords
 
 test_eks_encryption_pass if {
-  not deny[_] with input as {
+  not deny with input as {
     "resource_type": "aws_eks_cluster",
     "name": "mcp-dev",
     "values": {
@@ -54,7 +54,7 @@ test_prod_eks_public_endpoint_fail if {
 }
 
 test_elasticache_encryption_pass if {
-  not deny[_] with input as {
+  not deny with input as {
     "resource_type": "aws_elasticache_replication_group",
     "name": "mcp-redis",
     "values": {
@@ -80,7 +80,7 @@ test_elasticache_encryption_fail if {
 }
 
 test_sqs_kms_pass if {
-  not deny[_] with input as {
+  not deny with input as {
     "resource_type": "aws_sqs_queue",
     "name": "mcp-tasks",
     "values": {
@@ -100,7 +100,7 @@ test_sqs_kms_fail if {
 }
 
 test_secret_kms_pass if {
-  not deny[_] with input as {
+  not deny with input as {
     "resource_type": "aws_secretsmanager_secret",
     "name": "mcp-api-key",
     "values": {
@@ -120,7 +120,7 @@ test_secret_kms_fail if {
 }
 
 test_iam_oidc_pass if {
-  not deny[_] with input as {
+  not deny with input as {
     "resource_type": "aws_iam_role",
     "name": "mcp-server-role",
     "values": {
@@ -142,7 +142,7 @@ test_iam_oidc_fail if {
 }
 
 test_scaled_object_pass if {
-  not deny[_] with input as {
+  not deny with input as {
     "resource_type": "kubernetes_manifest",
     "name": "mcp-server-scaler",
     "values": {
