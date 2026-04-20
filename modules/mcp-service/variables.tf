@@ -172,9 +172,3 @@ variable "service_type" {
   type        = string
   default     = "ClusterIP"
 }
-
-variable "tags" {
-  description = "Tags applied as labels to workload resources"
-  type        = map(string)
-  default     = {}
-}

@@ -5,8 +5,9 @@ plugin "aws" {
 }
 
 config {
-  # Enables module inspection
-  call_module_type = "local"
+  # Disables module inspection to avoid tflint crashes when variables
+  # in the root module cannot be statically evaluated.
+  call_module_type = "none"
 
   # Forces deep inspection of modules
   force = false
@@ -51,10 +52,4 @@ rule "terraform_standard_module_structure" {
 
 rule "terraform_workspace_remote" {
   enabled = true
-}
-
-# Disabled due to tflint-ruleset-aws bug when for_each involves unevaluable/sensitive values.
-# See: https://github.com/terraform-linters/tflint/issues/1457
-rule "aws_secretsmanager_secret_invalid_description" {
-  enabled = false
 }
