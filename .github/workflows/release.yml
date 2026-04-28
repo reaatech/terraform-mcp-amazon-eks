@@ -82,7 +82,7 @@ jobs:
     needs: [format, lint, validate, audit]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: ${{ env.GO_VERSION }}
       - uses: hashicorp/setup-terraform@v3
