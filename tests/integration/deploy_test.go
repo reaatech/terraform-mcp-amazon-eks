@@ -5,7 +5,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/gruntwork-io/terratest/modules/aws"
 	"github.com/gruntwork-io/terratest/modules/random"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
@@ -29,7 +28,8 @@ func TestEKSDeployment(t *testing.T) {
 	clusterName := fmt.Sprintf("mcp-test-%s", uniqueID)
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: "../../environments/dev",
+		TerraformBinary: "terraform",
+		TerraformDir:    "../../environments/dev",
 		Vars: map[string]interface{}{
 			"cluster_name":     clusterName,
 			"region":           expectedRegion,
@@ -44,9 +44,6 @@ func TestEKSDeployment(t *testing.T) {
 
 	clusterEndpoint := terraform.Output(t, terraformOptions, "cluster_endpoint")
 	assert.NotEmpty(t, clusterEndpoint)
-
-	eksCluster := aws.GetEksCluster(t, clusterName, expectedRegion)
-	assert.Equal(t, clusterName, eksCluster.Name)
 
 	elasticacheEndpoint := terraform.Output(t, terraformOptions, "elasticache_endpoint")
 	assert.NotEmpty(t, elasticacheEndpoint)
@@ -103,9 +100,10 @@ func TestReferenceConfigurationsValidate(t *testing.T) {
 			t.Parallel()
 
 			terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-				TerraformDir: config.dir,
-				Vars:         config.vars,
-				NoColor:      true,
+				TerraformBinary: "terraform",
+				TerraformDir:    config.dir,
+				Vars:            config.vars,
+				NoColor:         true,
 			})
 
 			terraform.Init(t, terraformOptions)

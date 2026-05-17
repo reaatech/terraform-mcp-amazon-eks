@@ -10,8 +10,9 @@ func validateTerraformDir(t *testing.T, dir string) {
 	t.Helper()
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
-		TerraformDir: dir,
-		Upgrade:      false,
+		TerraformBinary: "terraform",
+		TerraformDir:    dir,
+		Upgrade:         false,
 	})
 
 	terraform.Init(t, terraformOptions)
